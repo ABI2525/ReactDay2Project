@@ -1,32 +1,33 @@
-import React from 'react'
-import {AppBar, Button,Tab, Tabs, Toolbar, Typography} from '@mui/material';
-import Shop2Icon from '@mui/icons-material/Shop2';
-import StoreIcon from '@mui/icons-material/Store';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ContactsIcon from '@mui/icons-material/Contacts';
-const Header = () => {
-  return (
-   <div>
-        <AppBar sx={{background:'orange'}}>
-            <Toolbar>
-                <Shop2Icon/>
-                <Typography>MySHOP</Typography>
-                <Tabs>
-                   <StoreIcon sx={{marginTop:'7px',left:'5px'}}/> 
-                    <Tab label="our selling products"/>
-                    <ThumbUpIcon sx={{marginTop:'7px'}}/>
-                    <Tab label="best rated products"/>
-                    <ContactsIcon sx={{marginTop:'7px'}}/>
-                    <Tab  label="Contact"/>
-           
-                </Tabs>
-                <Button  variant="OutLined" sx={{marginLeft:'auto'}}> LogIn</Button>
-                <Button  variant="contained" sx={{marginLeft:'12px'}}> signUp</Button>
-            </Toolbar>
-        </AppBar>
-        
-    </div>
-  )
-}
+import React from 'react';
+import './App.css';
+const withProducts = (products) => (WrappedComponent) => {
+  return class extends React.Component {
+    render() {
+      return (
+        <div className="product-list">
+          {products.map((product) => (
+            <div key={product.id} className="product">
+              <img src={product.imageUrl} alt={product.name} className="product-image" />
+              <div className="product-details">
+                <center><h2 className="product-name">{product.name}</h2>
+                <p className="product-price">{product.price}</p></center>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+};
 
-export default Header;
+const products = [
+  { id: 1, name: 'Cappuccino', price: '$10', imageUrl: 'https://perfectdailygrind.com/wp-content/uploads/2020/03/Cappuccino-Cover.png' },
+  { id: 2, name: 'Espresso', price: '$20', imageUrl: 'https://images.unsplash.com/photo-1508088405209-fbd63b6a4f50?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGVzcHJlc3NvJTIwY29mZmVlfGVufDB8fDB8fA%3D%3D&w=1000&q=80'  },
+  { id: 3, name: 'Americano', price: '$30', imageUrl: 'https://www.homegrounds.co/wp-content/uploads/2019/08/americano-e1522545816957.jpg' },
+];
+
+const ProductList = withProducts(products)((props) => {
+  return <div>{props.children}</div>;
+});
+
+export default ProductList;
